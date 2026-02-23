@@ -1,8 +1,28 @@
 const toggleButton = document.getElementById('lang-toggle');
-const translatableNodes = document.querySelectorAll('[data-kn][data-en]');
 const languageStorageKey = 'site_language';
+let translatableNodes = document.querySelectorAll('[data-kn][data-en]');
 
 let currentLanguage = 'kn';
+
+const ensureFooterContact = () => {
+    const footerTexts = document.querySelectorAll('.footer-text');
+
+    footerTexts.forEach((footerText) => {
+        if (footerText.querySelector('.footer-contact')) {
+            return;
+        }
+
+        const contact = document.createElement('p');
+        contact.className = 'footer-contact';
+
+        contact.dataset.kn = "<strong>ವಿಳಾಸ:</strong> ಯೆಲ್ಲಮ್ಮ ವೆಂಕಟೇಶ್ವರ ದೇವಸ್ಥಾನದ ಬಳಿ, ಭೋವಿಪಾಳ್ಯ, ಅಂತರಸನಹಳ್ಳಿ, ಅರಕೆರೆ ಪೋಸ್ಟ್, ತುಮಕೂರು, ಕರ್ನಾಟಕ – 572106, ಭಾರತ <br>ದೂರವಾಣಿ: <a href='tel:+917022229419'>7022229419</a>";
+
+        contact.dataset.en = "<strong>Address:</strong> Near Yellamma Venkateshwara Temple,  Bhovipalya, Antharasanahalli, Arakere Post, Tumakuru, Karnataka 572106, India <br>Ph: <a href='tel:+917022229419'>7022229419</a>";
+
+        contact.innerHTML = contact.dataset.kn;
+        footerText.appendChild(contact);
+    });
+};
 
 const getSavedLanguage = () => {
     try {
@@ -22,6 +42,8 @@ const saveLanguage = (language) => {
 };
 
 const applyLanguage = (language) => {
+    translatableNodes = document.querySelectorAll('[data-kn][data-en]');
+
     translatableNodes.forEach((node) => {
         node.innerHTML = node.dataset[language];
     });
@@ -36,6 +58,7 @@ toggleButton.addEventListener('click', () => {
     applyLanguage(currentLanguage === 'kn' ? 'en' : 'kn');
 });
 
+ensureFooterContact();
 applyLanguage(getSavedLanguage());
 
 // preloader

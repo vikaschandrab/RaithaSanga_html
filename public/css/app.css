@@ -146,6 +146,36 @@ section {
     border-radius: 0.5rem;
 }
 
+.leaders-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.leader-card {
+    text-align: center;
+}
+
+.leader-photo {
+    width: 100%;
+    max-width: 260px;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: 1rem;
+    margin: 0 auto 0.9rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.leader-name {
+    color: #14532d;
+    margin-bottom: 0.3rem;
+}
+
+.leader-role {
+    color: #7f1d1d;
+    font-weight: 700;
+}
+
 /* ================= FOOTER PREMIUM ================= */
 
 .site-footer {
@@ -202,6 +232,26 @@ section {
 .footer-text p {
     font-size: 0.9rem;
     color: #4b5563;
+}
+
+.footer-contact {
+    margin: 0;
+    line-height: 1.4;
+}
+
+.footer-contact strong {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.footer-contact a {
+    color: var(--union-green);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.footer-contact a:hover {
+    text-decoration: underline;
 }
 
 .footer-credit {
@@ -326,7 +376,55 @@ section {
         display: none;
     }
 
-    .menu.show {
+.menu.show {
         display: flex;
     }
+}
+
+/* ===== ERROR PAGE ===== */
+.error-page {
+    margin: 1.5rem 0 2.5rem;
+}
+
+.error-card {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.error-pill {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.error-message {
+    margin-top: 0.4rem;
+    font-size: 1.05rem;
+}
+
+.error-note {
+    margin-top: 0.75rem;
+    color: #4b5563;
+}
+
+.error-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.secondary-cta {
+    margin-top: 1rem;
+    display: inline-block;
+    border: 1px solid var(--union-green);
+    color: var(--union-green);
+    background: #ffffff;
+    border-radius: 0.7rem;
+    padding: 0.65rem 1rem;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.secondary-cta:hover {
+    background: rgba(22, 101, 52, 0.08);
 }

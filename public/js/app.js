@@ -4,6 +4,89 @@ let translatableNodes = document.querySelectorAll('[data-kn][data-en]');
 
 let currentLanguage = 'kn';
 
+const initGalleryLightbox = () => {
+    const galleryImages = document.querySelectorAll('.event-gallery img');
+
+    if (!galleryImages.length) {
+        return;
+    }
+
+    const modal = document.createElement('div');
+    modal.className = 'lightbox';
+    modal.setAttribute('aria-hidden', 'true');
+    modal.innerHTML = `
+        <div class="lightbox-backdrop"></div>
+        <div class="lightbox-dialog" role="dialog" aria-modal="true" aria-label="Event image viewer">
+            <button type="button" class="lightbox-nav lightbox-prev" aria-label="Previous image">‹</button>
+            <button type="button" class="lightbox-close" aria-label="Close image">×</button>
+            <img src="" alt="Event image" />
+            <button type="button" class="lightbox-nav lightbox-next" aria-label="Next image">›</button>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    const lightboxImage = modal.querySelector('img');
+    const closeButton = modal.querySelector('.lightbox-close');
+    const prevButton = modal.querySelector('.lightbox-prev');
+    const nextButton = modal.querySelector('.lightbox-next');
+    let currentIndex = 0;
+
+    const updateCurrentIndex = (index) => {
+        currentIndex = (index + galleryImages.length) % galleryImages.length;
+        const image = galleryImages[currentIndex];
+        lightboxImage.src = image.src;
+        lightboxImage.alt = image.alt || 'Event image';
+    };
+
+    const closeLightbox = () => {
+        modal.classList.remove('show');
+        document.body.style.overflow = '';
+        modal.setAttribute('aria-hidden', 'true');
+    };
+
+    const openLightbox = (image) => {
+        currentIndex = Array.from(galleryImages).indexOf(image);
+        updateCurrentIndex(currentIndex);
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+        modal.setAttribute('aria-hidden', 'false');
+    };
+
+    galleryImages.forEach((image) => {
+        image.addEventListener('click', () => openLightbox(image));
+        image.style.cursor = 'pointer';
+    });
+
+    closeButton.addEventListener('click', closeLightbox);
+    prevButton.addEventListener('click', () => updateCurrentIndex(currentIndex - 1));
+    nextButton.addEventListener('click', () => updateCurrentIndex(currentIndex + 1));
+
+    modal.addEventListener('click', (event) => {
+        if (event.target === modal || event.target.classList.contains('lightbox-backdrop')) {
+            closeLightbox();
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (!modal.classList.contains('show')) {
+            return;
+        }
+
+        if (event.key === 'Escape') {
+            closeLightbox();
+        }
+
+        if (event.key === 'ArrowLeft') {
+            updateCurrentIndex(currentIndex - 1);
+        }
+
+        if (event.key === 'ArrowRight') {
+            updateCurrentIndex(currentIndex + 1);
+        }
+    });
+};
+
 const ensureFooterContact = () => {
     const footerTexts = document.querySelectorAll('.footer-text');
 
@@ -60,6 +143,7 @@ toggleButton.addEventListener('click', () => {
 
 ensureFooterContact();
 applyLanguage(getSavedLanguage());
+initGalleryLightbox();
 
 // preloader
 window.addEventListener('load', () => {
